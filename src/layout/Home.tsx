@@ -1,23 +1,51 @@
-import { Breadcrumb, Flex, Layout, Menu, theme } from "antd";
+import { Breadcrumb, Layout, Menu, theme } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
-import MenuItems from "../List/NavMenu";
-import { useState } from "react";
+import MenuItems from "./NavMenu";
+import { useEffect, useState } from "react";
 import { ItemType } from "antd/es/breadcrumb/Breadcrumb";
-import UserManager from "./UserManager";
-import UserDisplay from "./UserDisplay";
+import Main from "./Main";
+import { useLocation, useNavigate } from "react-router";
 
 
-const ManageSystem: React.FC = () => {
+const Home: React.FC = () => {
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
 
+    const navigate = useNavigate();
+    const location = useLocation();
+    const selectedKey = location.pathname;
     const [breadCrumbItems, setBreadCrumbItems] = useState<ItemType[]>();
 
     const handleMenuClick = (event: any) => {
-        console.log(event);
+        navigate(event.key);
     }
+
+    const findBreadcrumbPaths = (path: string, items: any[] | undefined): ItemType[] => {
+        if (path == '/' || !items) {
+            return [{ title: '首页看板' }]
+        }
+        for (const item of items) {
+            if (item.key === path) {
+                return [{
+                    title: item.label
+                }];
+            }
+            if (item.children) {
+                const result = findBreadcrumbPaths(path, item.children);
+                if (result.length > 0) {
+                    return [{ title: item.label }, ...result];
+                }
+            }
+        }
+        return [];
+    };
+
+    useEffect(() => {
+        setBreadCrumbItems(findBreadcrumbPaths(selectedKey, MenuItems));
+    }, [selectedKey, MenuItems]);
+
     return (
         <Layout>
             <Header style={{ display: 'flex', alignItems: 'center' }}>
@@ -27,8 +55,6 @@ const ManageSystem: React.FC = () => {
                 <Sider width={200} style={{ background: colorBgContainer }} collapsible={false}>
                     <Menu
                         mode="inline"
-                        defaultSelectedKeys={['1']}
-                        defaultOpenKeys={['sub1']}
                         style={{ height: '100%', borderRight: 0 }}
                         items={MenuItems}
                         onClick={handleMenuClick}
@@ -44,15 +70,11 @@ const ManageSystem: React.FC = () => {
                             padding: 24,
                             margin: 0,
                             minHeight: 280,
-                            background: "#f5f5f5",
+                            background: colorBgContainer,
                             borderRadius: borderRadiusLG,
                         }}
                     >
-                        <Flex vertical={true}
-                            gap={"middle"}>
-                            <UserManager />
-                            <UserDisplay />
-                        </Flex>
+                        <Main />
                     </Content>
                 </Layout>
             </Layout>
@@ -60,4 +82,4 @@ const ManageSystem: React.FC = () => {
     );
 };
 
-export default ManageSystem;
+export default Home;

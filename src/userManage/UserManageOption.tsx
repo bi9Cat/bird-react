@@ -10,7 +10,7 @@ export const api = axios.create({
     baseURL: 'http://localhost:8080'
 });
 
-const UserManager = () => {
+const UserManageOption = () => {
     // 创建用户所需state
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [createUserInfo, setCreateUserInfo] = useState<UserInfo>();
@@ -107,4 +107,4 @@ const UserManager = () => {
     );
 }
 
-export default UserManager;
+export default UserManageOption;

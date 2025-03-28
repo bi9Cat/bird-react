@@ -1,9 +1,9 @@
 import { Button, Form, Input, message, Modal, Select } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { SUCCESS_CODE, UserInfo } from './UserInfo'
-import { api } from './UserManager'
-import useUserInfoStore from './UserInfoStore'
 import Password from 'antd/es/input/Password'
+import useUserInfoStore from './UserInfoStore';
+import { api } from './UserManageOption';
 
 const { Option } = Select;
 
@@ -48,25 +48,6 @@ export default function UserInfoForm({ useCase, isModalOpen, userInfo, closeModa
         }
     };
 
-    const updateUser = async () => {
-        await api.post("/user/update", userInfo)
-            .then(response => {
-                const { code, message: msg, data } = response.data;
-                if (code == SUCCESS_CODE) {
-                    messageApi.success('修改成功');
-                    updateUserInfo(undefined);
-                    updateUserStore(data);
-                } else {
-                    messageApi.error(msg);
-                }
-                setLoading(false);
-                closeModal();
-                form.resetFields();
-            }).catch(error => {
-                messageApi.error(error);
-            });
-    }
-
     const createUser = async () => {
         const user = {
             ...userInfo,
@@ -83,6 +64,25 @@ export default function UserInfoForm({ useCase, isModalOpen, userInfo, closeModa
                     messageApi.success('创建成功');
                     addUserStore(data);
                     updateUserInfo(undefined);
+                }
+                setLoading(false);
+                closeModal();
+                form.resetFields();
+            }).catch(error => {
+                messageApi.error(error);
+            });
+    }
+
+    const updateUser = async () => {
+        await api.post("/user/update", userInfo)
+            .then(response => {
+                const { code, message: msg, data } = response.data;
+                if (code == SUCCESS_CODE) {
+                    messageApi.success('修改成功');
+                    updateUserInfo(undefined);
+                    updateUserStore(data);
+                } else {
+                    messageApi.error(msg);
                 }
                 setLoading(false);
                 closeModal();
@@ -122,7 +122,7 @@ export default function UserInfoForm({ useCase, isModalOpen, userInfo, closeModa
 
             }
         }).catch(error => {
-
+            console.log(error);
         });
     }, [])
 
@@ -132,7 +132,8 @@ export default function UserInfoForm({ useCase, isModalOpen, userInfo, closeModa
 
     return (
         <>{contextHolder}
-            <Modal title={modalTitle(useCase)}
+            <Modal
+                title={modalTitle(useCase)}
                 open={isModalOpen}
                 onCancel={closeModal}
                 footer={[
@@ -140,14 +141,15 @@ export default function UserInfoForm({ useCase, isModalOpen, userInfo, closeModa
                         key="submit"
                         type='primary'
                         loading={loading}
-                        onClick={() => {
-                            form.validateFields()
-                                .then(values => {
-                                    handleSubmit();
-                                }).catch((info) => {
-                                    console.log(info);
-                                })
-                        }}
+                        onClick={
+                            () => {
+                                form.validateFields()
+                                    .then(() => {
+                                        handleSubmit();
+                                    }).catch((info) => {
+                                        console.log(info);
+                                    })
+                            }}
                     >
                         {UserFormType.CREATE === useCase ? '创建普通用户' : '提交修改'}
                     </Button>
@@ -158,7 +160,6 @@ export default function UserInfoForm({ useCase, isModalOpen, userInfo, closeModa
                     form={form}
                     name="control-hooks"
                     style={{ maxWidth: 600 }}
-                //initialValues={userInfo}
                 >
                     {<Form.Item
                         name="userName"

@@ -2,23 +2,24 @@ import { useEffect, useMemo, useState } from 'react';
 import { Badge, Card, message, Modal, Popconfirm, Space, Table, Tag } from 'antd';
 import type { TablePaginationConfig, TableProps } from 'antd';
 import { FetchUsersParams, SUCCESS_CODE, UserInfo } from './UserInfo';
-import useUserInfoStore from './UserInfoStore';
-import { api } from './UserManager';
+import { api } from './UserManageOption';
 import { ExclamationCircleFilled } from '@ant-design/icons';
 import UserInfoForm, { UserFormType } from './UserInfoForm';
+import useUserInfoStore from './UserInfoStore';
 
+const convertStatus = (statusCode: string) => {
+    switch (statusCode) {
+        case 'NORMAL':
+            return '正常';
+        case 'STOP':
+            return '停用'
+    }
+}
 
 const UserDisplay = () => {
     const [messageApi, contextHolder] = message.useMessage();
 
-    const convertStatus = (statusCode: string) => {
-        switch (statusCode) {
-            case 'NORMAL':
-                return '正常';
-            case 'STOP':
-                return '停用'
-        }
-    }
+
 
     const columns: TableProps<UserInfo>['columns'] = useMemo(() => ([
         {
@@ -148,7 +149,7 @@ const UserDisplay = () => {
             params: {
                 userName: userName,
                 phoneNumber: phoneNumber,
-                userType:'ORDINARY_EMPLOYEES',
+                userType: 'ORDINARY_EMPLOYEES',
                 page: pagination.current,
                 pageSize: pagination.pageSize
             }
