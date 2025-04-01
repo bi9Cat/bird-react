@@ -1,4 +1,4 @@
-import { Breadcrumb, Layout, Menu, MenuProps } from "antd";
+import { Breadcrumb, Layout, Menu, MenuProps, theme } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import MenuItems from "./NavMenu";
@@ -15,6 +15,8 @@ const Home: React.FC = () => {
   const location = useLocation();
   const selectedKey = location.pathname;
   const [breadCrumbItems, setBreadCrumbItems] = useState<ItemType[]>();
+  const { token } = theme.useToken();
+  const { colorBgContainer, borderRadiusLG } = token;
 
   const handleMenuClick = (event: { key: To }) => {
     navigate(event.key);
@@ -69,7 +71,13 @@ const Home: React.FC = () => {
         </Sider>
         <Layout className={styles.layout}>
           <Breadcrumb className={styles.breadcrumb} items={breadCrumbItems} />
-          <Content className={styles.content}>
+          <Content
+            className={styles.content}
+            style={{
+              background: colorBgContainer,
+              borderRadius: borderRadiusLG,
+            }}
+          >
             <Main />
           </Content>
         </Layout>
