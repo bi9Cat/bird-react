@@ -100,6 +100,7 @@ const UserDisplay = () => {
               okText="删除"
               cancelText="取消"
               onConfirm={() => deleteUserById(record)}
+              className={dispalyStyles.delete}
             >
               <a
                 onClick={(e) => {
