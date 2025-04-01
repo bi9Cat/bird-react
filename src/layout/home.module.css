@@ -1,0 +1,30 @@
+.header {
+  display: "flex";
+  align-items: "center";
+}
+
+.sider {
+  width: 200px;
+  background: colorBgContainer;
+}
+
+.menu {
+  height: 100%;
+  border-right: 0;
+}
+
+.breadcrumb {
+  margin: 16px 0;
+}
+
+.layout {
+  padding: 0 24px 24px;
+}
+
+.content {
+  padding: 24px;
+  margin: 0px;
+  min-height: 280px;
+  background: colorBgContainer;
+  border-radius: borderRadiusLG;
+}

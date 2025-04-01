@@ -58,7 +58,7 @@ export default function UserInfoForm({ useCase, isModalOpen, userInfo, closeModa
         await api.post('/user/create', user)
             .then(response => {
                 const { code, message, data } = response.data;
-                if (code != SUCCESS_CODE) {
+                if (code !== SUCCESS_CODE) {
                     messageApi.error(message);
                 } else {
                     messageApi.success('创建成功');
@@ -77,7 +77,7 @@ export default function UserInfoForm({ useCase, isModalOpen, userInfo, closeModa
         await api.post("/user/update", userInfo)
             .then(response => {
                 const { code, message: msg, data } = response.data;
-                if (code == SUCCESS_CODE) {
+                if (code === SUCCESS_CODE) {
                     messageApi.success('修改成功');
                     updateUserInfo(undefined);
                     updateUserStore(data);
@@ -114,12 +114,10 @@ export default function UserInfoForm({ useCase, isModalOpen, userInfo, closeModa
                 userType: 'DEPARTMENT_MANAGER'
             }
         }).then(response => {
-            const { code, message: msg, data } = response.data;
-            if (code == SUCCESS_CODE) {
+            const { code, data } = response.data;
+            if (code === SUCCESS_CODE) {
                 const { resultList } = data;
                 setSupervisors(resultList);
-            } else {
-
             }
         }).catch(error => {
             console.log(error);
@@ -167,7 +165,7 @@ export default function UserInfoForm({ useCase, isModalOpen, userInfo, closeModa
                         rules={[{ required: true, message: "请输入用户名" }]}
                     >
                         <Input
-                            disabled={useCase != UserFormType.CREATE}
+                            disabled={useCase !== UserFormType.CREATE}
                             onChange={(e) => updateUserInfo({
                                 ...userInfo,
                                 userName: e.target.value
@@ -175,7 +173,7 @@ export default function UserInfoForm({ useCase, isModalOpen, userInfo, closeModa
                         />
                     </Form.Item>}
 
-                    {(useCase == UserFormType.CREATE || useCase == UserFormType.EDIT_PASSWORD) && <Form.Item
+                    {(useCase === UserFormType.CREATE || useCase === UserFormType.EDIT_PASSWORD) && <Form.Item
                         name="password"
                         label="登录密码"
                         rules={[{ required: true, message: "请输入登录密码" }]}
@@ -186,7 +184,7 @@ export default function UserInfoForm({ useCase, isModalOpen, userInfo, closeModa
                                 password: e.target.value
                             })} />
                     </Form.Item>}
-                    {(useCase == UserFormType.CREATE || useCase == UserFormType.EDIT) && <Form.Item
+                    {(useCase === UserFormType.CREATE || useCase === UserFormType.EDIT) && <Form.Item
                         name="phoneNumber"
                         label="手机号"
                         rules={[{
@@ -202,7 +200,7 @@ export default function UserInfoForm({ useCase, isModalOpen, userInfo, closeModa
                         />
                     </Form.Item>}
 
-                    {(useCase == UserFormType.CREATE || useCase == UserFormType.EDIT) && <Form.Item
+                    {(useCase === UserFormType.CREATE || useCase === UserFormType.EDIT) && <Form.Item
                         name="email"
                         label="邮箱"
                         rules={[{
@@ -218,7 +216,7 @@ export default function UserInfoForm({ useCase, isModalOpen, userInfo, closeModa
                         />
                     </Form.Item>}
 
-                    {(useCase == UserFormType.CREATE || useCase == UserFormType.EDIT) && <Form.Item
+                    {(useCase === UserFormType.CREATE || useCase === UserFormType.EDIT) && <Form.Item
                         name="nickName"
                         label="昵称"
                     >
@@ -230,7 +228,7 @@ export default function UserInfoForm({ useCase, isModalOpen, userInfo, closeModa
                         />
                     </Form.Item>}
 
-                    {(useCase == UserFormType.EDIT) && <Form.Item
+                    {(useCase === UserFormType.EDIT) && <Form.Item
                         name="status"
                         label="状态"
                     >
@@ -245,7 +243,7 @@ export default function UserInfoForm({ useCase, isModalOpen, userInfo, closeModa
                         </Select>
                     </Form.Item>}
 
-                    {(useCase == UserFormType.CREATE || useCase == UserFormType.EDIT) && <Form.Item
+                    {(useCase === UserFormType.CREATE || useCase === UserFormType.EDIT) && <Form.Item
                         name="loginMethod"
                         label="用户来源"
                     >
@@ -255,9 +253,10 @@ export default function UserInfoForm({ useCase, isModalOpen, userInfo, closeModa
                     </Form.Item>}
 
                     {
-                        (useCase == UserFormType.CREATE || useCase == UserFormType.EDIT) && <Form.Item
+                        (useCase === UserFormType.CREATE || useCase === UserFormType.EDIT) && <Form.Item
                             name="directSupervisorId"
                             label="直属主管"
+                            rules={[{ required: true, message: "请选择直属主管" }]}
                         >
                             <Select placeholder="请选择主管"
                                 onChange={(value) => updateUserInfo({

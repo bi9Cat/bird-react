@@ -1,0 +1,39 @@
+.card {
+  height: 30%;
+}
+
+.userMangeOpLabel {
+  font-size: 20px;
+}
+
+.userManageOpFlex {
+  width: 100%;
+}
+
+.userNameFelx {
+  width: 30%;
+}
+
+.userNameLabel {
+  width: 20%;
+}
+
+.userNameInput {
+  width: 50%;
+}
+
+.phoneNumFelx {
+  width: 30%;
+}
+
+.phoneNumberLabel {
+  width: 20%;
+}
+
+.phoneNumberInput {
+  width: 50%;
+}
+
+.searchFelx {
+  width: 100%;
+}

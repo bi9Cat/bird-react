@@ -1,7 +1,8 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import UserManage from "../userManage/UserManage";
 import OrgManage from "../orgManage/OrgManage";
 import Dashboard from "../dashboard/Dashboard";
+import React from "react";
 
 const Main = () => {
     return (

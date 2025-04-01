@@ -1,85 +1,76 @@
-import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Breadcrumb, Layout, Menu } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import MenuItems from "./NavMenu";
 import { useEffect, useState } from "react";
 import { ItemType } from "antd/es/breadcrumb/Breadcrumb";
 import Main from "./Main";
-import { useLocation, useNavigate } from "react-router";
-
+import { To, useLocation, useNavigate } from "react-router";
+import styles from "./home.module.css";
+import React from "react";
 
 const Home: React.FC = () => {
-    const {
-        token: { colorBgContainer, borderRadiusLG },
-    } = theme.useToken();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const selectedKey = location.pathname;
+  const [breadCrumbItems, setBreadCrumbItems] = useState<ItemType[]>();
 
-    const navigate = useNavigate();
-    const location = useLocation();
-    const selectedKey = location.pathname;
-    const [breadCrumbItems, setBreadCrumbItems] = useState<ItemType[]>();
+  const handleMenuClick = (event: { key: To }) => {
+    navigate(event.key);
+  };
 
-    const handleMenuClick = (event: any) => {
-        navigate(event.key);
+  const findBreadcrumbPaths = (
+    path: string,
+    items: ItemType[] | undefined
+  ): ItemType[] => {
+    if (path === "/" || !items) {
+      return [{ title: "首页看板" }];
     }
-
-    const findBreadcrumbPaths = (path: string, items: any[] | undefined): ItemType[] => {
-        if (path == '/' || !items) {
-            return [{ title: '首页看板' }]
+    for (const item of items) {
+      if (item.key === path) {
+        return [
+          {
+            title: item.label,
+          },
+        ];
+      }
+      if (item.children) {
+        const result = findBreadcrumbPaths(path, item.children);
+        if (result.length > 0) {
+          return [{ title: item.label }, ...result];
         }
-        for (const item of items) {
-            if (item.key === path) {
-                return [{
-                    title: item.label
-                }];
-            }
-            if (item.children) {
-                const result = findBreadcrumbPaths(path, item.children);
-                if (result.length > 0) {
-                    return [{ title: item.label }, ...result];
-                }
-            }
-        }
-        return [];
-    };
+      }
+    }
+    return [];
+  };
 
-    useEffect(() => {
-        setBreadCrumbItems(findBreadcrumbPaths(selectedKey, MenuItems));
-    }, [selectedKey, MenuItems]);
+  useEffect(() => {
+    setBreadCrumbItems(findBreadcrumbPaths(selectedKey, MenuItems));
+  }, [selectedKey, MenuItems]);
 
-    return (
-        <Layout>
-            <Header style={{ display: 'flex', alignItems: 'center' }}>
-                <div className="demo-logo" />
-            </Header>
-            <Layout>
-                <Sider width={200} style={{ background: colorBgContainer }} collapsible={false}>
-                    <Menu
-                        mode="inline"
-                        style={{ height: '100%', borderRight: 0 }}
-                        items={MenuItems}
-                        onClick={handleMenuClick}
-                    />
-                </Sider>
-                <Layout style={{ padding: '0 24px 24px' }}>
-                    <Breadcrumb
-                        items={breadCrumbItems}
-                        style={{ margin: '16px 0' }}
-                    />
-                    <Content
-                        style={{
-                            padding: 24,
-                            margin: 0,
-                            minHeight: 280,
-                            background: colorBgContainer,
-                            borderRadius: borderRadiusLG,
-                        }}
-                    >
-                        <Main />
-                    </Content>
-                </Layout>
-            </Layout>
+  return (
+    <Layout>
+      <Header className={styles.header}>
+        <div />
+      </Header>
+      <Layout>
+        <Sider className={styles.sider} collapsible={false}>
+          <Menu
+            className={styles.menu}
+            mode="inline"
+            items={MenuItems}
+            onClick={handleMenuClick}
+          />
+        </Sider>
+        <Layout className={styles.layout}>
+          <Breadcrumb className={styles.breadcrumb} items={breadCrumbItems} />
+          <Content className={styles.content}>
+            <Main />
+          </Content>
         </Layout>
-    );
+      </Layout>
+    </Layout>
+  );
 };
 
 export default Home;
