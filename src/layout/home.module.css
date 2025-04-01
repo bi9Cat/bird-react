@@ -24,7 +24,7 @@
 .content {
   padding: 24px;
   margin: 0px;
-  min-height: 280px;
+  min-height: 800px;
   background: colorBgContainer;
   border-radius: borderRadiusLG;
 }

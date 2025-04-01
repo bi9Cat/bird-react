@@ -7,10 +7,18 @@ export default defineConfig({
   root: "./",
   // 开发服务器配置
   server: {
-    port: 3000
+    port: 3000,
+    proxy: {
+      "/api": {
+        target: "http://localhost:8080",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
   },
   // 构建配置
   build: {
     outDir: "dist",
+    target: "modules",
   },
 });

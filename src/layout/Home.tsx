@@ -1,4 +1,4 @@
-import { Breadcrumb, Layout, Menu } from "antd";
+import { Breadcrumb, Layout, Menu, MenuProps } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import MenuItems from "./NavMenu";
@@ -8,6 +8,7 @@ import Main from "./Main";
 import { To, useLocation, useNavigate } from "react-router";
 import styles from "./home.module.css";
 import React from "react";
+import { SubMenuType } from "antd/es/menu/interface";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -21,23 +22,27 @@ const Home: React.FC = () => {
 
   const findBreadcrumbPaths = (
     path: string,
-    items: ItemType[] | undefined
+    items: MenuProps["items"] | undefined
   ): ItemType[] => {
     if (path === "/" || !items) {
       return [{ title: "首页看板" }];
     }
     for (const item of items) {
-      if (item.key === path) {
+      if (!item) {
+        continue;
+      }
+      const i = item as SubMenuType;
+      if (i.key === path) {
         return [
           {
-            title: item.label,
+            title: i.label,
           },
         ];
       }
-      if (item.children) {
-        const result = findBreadcrumbPaths(path, item.children);
+      if (i.children) {
+        const result = findBreadcrumbPaths(path, i.children);
         if (result.length > 0) {
-          return [{ title: item.label }, ...result];
+          return [{ title: i.label }, ...result];
         }
       }
     }

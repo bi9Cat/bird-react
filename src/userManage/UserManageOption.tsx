@@ -3,14 +3,9 @@ import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import useUserInfoStore from "./UserInfoStore";
 import { FetchUsersParams, UserInfo } from "./UserInfo";
-import axios from "axios";
 import UserInfoForm, { UserFormType } from "./UserInfoForm";
 import styles from "./userManageOption.module.css";
 import React from "react";
-
-export const api = axios.create({
-  baseURL: "http://localhost:8080",
-});
 
 const UserManageOption = () => {
   // 创建用户所需state

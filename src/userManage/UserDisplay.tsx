@@ -2,10 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 import { Badge, Card, message, Popconfirm, Space, Table } from "antd";
 import type { TablePaginationConfig, TableProps } from "antd";
 import { FetchUsersParams, SUCCESS_CODE, UserInfo } from "./UserInfo";
-import { api } from "./UserManageOption";
 import UserInfoForm, { UserFormType } from "./UserInfoForm";
 import useUserInfoStore from "./UserInfoStore";
 import dispalyStyles from "./userDisplay.module.css";
+import axios from "axios";
 
 const convertStatus = (statusCode: string) => {
   switch (statusCode) {
@@ -161,8 +161,8 @@ const UserDisplay = () => {
     pagination: TablePaginationConfig
   ) => {
     const { userName, phoneNumber } = params;
-    await api
-      .get("/user/filter", {
+    await axios
+      .get("/api/user/filter", {
         params: {
           userName: userName,
           phoneNumber: phoneNumber,
@@ -213,7 +213,7 @@ const UserDisplay = () => {
   //   };
 
   const deleteUserById = async (user: UserInfo) => {
-    await api
+    await axios
       .post("/user/deleteById", {
         id: user.id,
       })

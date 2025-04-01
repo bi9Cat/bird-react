@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { SUCCESS_CODE, UserInfo } from "./UserInfo";
 import Password from "antd/es/input/Password";
 import useUserInfoStore from "./UserInfoStore";
-import { api } from "./UserManageOption";
+import axios from "axios";
 
 const { Option } = Select;
 
@@ -60,8 +60,8 @@ export default function UserInfoForm({
       userType: "ORDINARY_EMPLOYEES",
     };
 
-    await api
-      .post("/user/create", user)
+    await axios
+      .post("/api/user/create", user)
       .then((response) => {
         const { code, message, data } = response.data;
         if (code !== SUCCESS_CODE) {
@@ -81,8 +81,8 @@ export default function UserInfoForm({
   };
 
   const updateUser = async () => {
-    await api
-      .post("/user/update", userInfo)
+    await axios
+      .post("/api/user/update", userInfo)
       .then((response) => {
         const { code, message: msg, data } = response.data;
         if (code === SUCCESS_CODE) {
@@ -113,8 +113,8 @@ export default function UserInfoForm({
   };
 
   useEffect(() => {
-    api
-      .get("/user/filter", {
+    axios
+      .get("/api/user/filter", {
         params: {
           page: 1,
           pageSize: 10,
