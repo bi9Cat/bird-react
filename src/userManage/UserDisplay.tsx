@@ -1,19 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import {
-  Badge,
-  Card,
-  message,
-  Popconfirm,
-  Space,
-  Table,
-} from "antd";
+import { Badge, Card, message, Popconfirm, Space, Table } from "antd";
 import type { TablePaginationConfig, TableProps } from "antd";
 import { FetchUsersParams, SUCCESS_CODE, UserInfo } from "./UserInfo";
 import { api } from "./UserManageOption";
 import UserInfoForm, { UserFormType } from "./UserInfoForm";
 import useUserInfoStore from "./UserInfoStore";
 import dispalyStyles from "./userDisplay.module.css";
-import React from 'react'
 
 const convertStatus = (statusCode: string) => {
   switch (statusCode) {
@@ -197,9 +189,7 @@ const UserDisplay = () => {
       });
   };
 
-  const handlePageChange = (
-    pag: TablePaginationConfig,
-  ) => {
+  const handlePageChange = (pag: TablePaginationConfig) => {
     console.log(pag);
     setPagination({
       ...pagination,
@@ -208,19 +198,19 @@ const UserDisplay = () => {
     });
   };
 
-//   const showDeleteConfirm = (user: UserInfo) => {
-//     console.log("confirm delete");
-//     Modal.confirm({
-//       title: "确认删除",
-//       icon: <ExclamationCircleFilled />,
-//       content: "你确定要删除这个用户吗？删除后不可恢复",
-//       okText: "确认",
-//       cancelText: "取消",
-//       onOk() {
-//         deleteUserById(user);
-//       },
-//     });
-//   };
+  //   const showDeleteConfirm = (user: UserInfo) => {
+  //     console.log("confirm delete");
+  //     Modal.confirm({
+  //       title: "确认删除",
+  //       icon: <ExclamationCircleFilled />,
+  //       content: "你确定要删除这个用户吗？删除后不可恢复",
+  //       okText: "确认",
+  //       cancelText: "取消",
+  //       onOk() {
+  //         deleteUserById(user);
+  //       },
+  //     });
+  //   };
 
   const deleteUserById = async (user: UserInfo) => {
     await api
