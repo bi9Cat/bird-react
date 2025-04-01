@@ -67,6 +67,7 @@ const Home: React.FC = () => {
             mode="inline"
             items={MenuItems}
             onClick={handleMenuClick}
+            defaultSelectedKeys={['/Dashboard']}
           />
         </Sider>
         <Layout className={styles.layout}>
