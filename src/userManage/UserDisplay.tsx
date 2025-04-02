@@ -191,7 +191,7 @@ const UserDisplay = () => {
 
   const deleteUserById = async (user: UserInfo) => {
     await axios
-      .post("/user/deleteById", {
+      .post("/api/user/deleteById", {
         id: user.id,
       })
       .then((response) => {
