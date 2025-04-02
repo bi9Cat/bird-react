@@ -110,21 +110,6 @@ const UserDisplay = () => {
                 删除
               </a>
             </Popconfirm>
-
-            {/* <button onClick={() => {
-                        // e.preventDefault();
-                        // showDeleteConfirm(record);
-                        Modal.confirm({
-                            title: "确认删除",
-                            icon: <ExclamationCircleFilled />,
-                            content: '你确定要删除这个用户吗？删除后不可恢复',
-                            okText: "确认",
-                            cancelText: "取消",
-                            onOk() {
-                                //deleteUserById(user);
-                            }
-                        });
-                    }}>删除</button> */}
           </Space>
         ),
         fixed: "right",
@@ -157,6 +142,11 @@ const UserDisplay = () => {
     searchParam.phoneNumber,
   ]);
 
+  /**
+   * 拉取用户数据，只拉取普通用户
+   * @param params 搜索用户的参数
+   * @param pagination 分页信息
+   */
   const fetchUsers = async (
     params: FetchUsersParams,
     pagination: TablePaginationConfig
@@ -198,20 +188,6 @@ const UserDisplay = () => {
       pageSize: pag.pageSize,
     });
   };
-
-  //   const showDeleteConfirm = (user: UserInfo) => {
-  //     console.log("confirm delete");
-  //     Modal.confirm({
-  //       title: "确认删除",
-  //       icon: <ExclamationCircleFilled />,
-  //       content: "你确定要删除这个用户吗？删除后不可恢复",
-  //       okText: "确认",
-  //       cancelText: "取消",
-  //       onOk() {
-  //         deleteUserById(user);
-  //       },
-  //     });
-  //   };
 
   const deleteUserById = async (user: UserInfo) => {
     await axios

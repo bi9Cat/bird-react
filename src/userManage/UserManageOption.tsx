@@ -12,8 +12,8 @@ const UserManageOption = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [createUserInfo, setCreateUserInfo] = useState<UserInfo>();
 
-  // 查询用户所需state
-  const [searchParam, setSearchParam] = useState<FetchUsersParams>(); // 先记录到组件内部，点击查询按钮时再更新到store中
+  // 查询用户所需state 先记录到组件内部，点击查询按钮时再更新到store中
+  const [searchParam, setSearchParam] = useState<FetchUsersParams>();
   const setStoreSearchParam = useUserInfoStore((state) => state.setSearchParam);
   const pagination = useUserInfoStore((state) => state.pagination);
   const setPagination = useUserInfoStore((state) => state.setPagination);

@@ -34,8 +34,11 @@ const useUserInfoStore = create<UserStore>((set) => ({
     pageSize: 10,
     pageSizeOptions: ["10", "20", "30"],
     showSizeChanger: true,
+    showQuickJumper: true,
     locale: {
       items_per_page: "条/页",
+      jump_to: "跳转至第",
+      page: "页",
     },
   },
 

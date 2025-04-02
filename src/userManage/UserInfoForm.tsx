@@ -1,22 +1,22 @@
-import { Button, Form, Input, message, Modal, Select } from "antd";
+import { Button, Flex, Form, Input, message, Modal, Select } from "antd";
 import { useEffect, useState } from "react";
 import { SUCCESS_CODE, UserInfo } from "./UserInfo";
 import Password from "antd/es/input/Password";
 import useUserInfoStore from "./UserInfoStore";
 import axios from "axios";
+import styles from "./userInfoForm.module.css";
 
 const { Option } = Select;
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 12 },
+};
 
 export enum UserFormType {
   CREATE,
   EDIT,
   EDIT_PASSWORD,
 }
-
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
 
 type Props = {
   useCase: UserFormType;
@@ -59,7 +59,6 @@ export default function UserInfoForm({
       loginMethod: "NORMAL_LOGIN",
       userType: "ORDINARY_EMPLOYEES",
     };
-
     await axios
       .post("/api/user/create", user)
       .then((response) => {
@@ -144,31 +143,34 @@ export default function UserInfoForm({
         title={modalTitle(useCase)}
         open={isModalOpen}
         onCancel={closeModal}
-        footer={[
-          <Button
-            key="submit"
-            type="primary"
-            loading={loading}
-            onClick={() => {
-              form
-                .validateFields()
-                .then(() => {
-                  handleSubmit();
-                })
-                .catch((info) => {
-                  console.log(info);
-                });
-            }}
-          >
-            {UserFormType.CREATE === useCase ? "创建普通用户" : "提交修改"}
-          </Button>,
-        ]}
+        footer={
+          <Flex vertical justify="center" align="center" gap="large">
+            <Button
+              className={styles.submitBtn}
+              key="submit"
+              type="primary"
+              loading={loading}
+              onClick={() => {
+                form
+                  .validateFields()
+                  .then(() => {
+                    handleSubmit();
+                  })
+                  .catch((info) => {
+                    console.log(info);
+                  });
+              }}
+            >
+              {UserFormType.CREATE === useCase ? "创建普通用户" : "提交修改"}
+            </Button>
+          </Flex>
+        }
       >
         <Form
           {...layout}
           form={form}
           name="control-hooks"
-          style={{ maxWidth: 600 }}
+          className={styles.form}
         >
           {
             <Form.Item
